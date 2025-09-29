@@ -3,8 +3,8 @@
 #include <algorithm>
 
 template<typename T>
-T Min(T a, T b) {
-    return (a < b) ? a : b;
+T Min(const T& num1 ,const T& num2) {
+    return (num1 < num2) ? num1 : num2;
 }
 
 int main() {
