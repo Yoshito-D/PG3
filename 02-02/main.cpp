@@ -21,6 +21,7 @@ void PrintWages(int32_t time, int32_t recursiveHourlyWage, int32_t recursiveTota
 
 int main() {
    std::cout << CompareHourlyWages(1, 100, 0, 1226, 0) << "時間で逆転" << std::endl;
+   return 0;
 }
 
 int32_t CompareHourlyWages(int32_t time, int32_t recursiveHourlyWage, int32_t recursiveTotalWage,
