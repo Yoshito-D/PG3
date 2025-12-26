@@ -6,8 +6,8 @@
 //==========================
 class WritingInstrument {
 public:
-   virtual void Write();;
-   virtual ~WritingInstrument();
+   virtual void Write() = 0;
+   virtual ~WritingInstrument() = default;
 protected:
    std::string color;
 };
