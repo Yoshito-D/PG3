@@ -1,18 +1,11 @@
 #include "WritingInstrument.h"
 #include <iostream>
 
-//==========================
-// 筆記用具クラスのメソッド定義
-//==========================
-void WritingInstrument::Write() {}
-
-WritingInstrument::~WritingInstrument() {}
-
 //============================
 // ボールペンクラスのメソッド定義
 //============================
-BallpointPen::BallpointPen() { 
-   color = "Blue"; 
+BallpointPen::BallpointPen() {
+   color = "Blue";
 }
 
 void BallpointPen::Write() {
@@ -26,6 +19,6 @@ Pencil::Pencil() {
    color = "Gray";
 }
 
-void Pencil::Write() { 
+void Pencil::Write() {
    std::cout << "Writing with a " << color << " pencil." << std::endl;
 }
