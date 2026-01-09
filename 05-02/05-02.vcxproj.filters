@@ -20,10 +20,7 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
     </ClCompile>
-    <ClCompile Include="Application\InputManager.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\TitleScene.cpp">
+    <ClCompile Include="Application\GameManager.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="Application\IScene.cpp">
@@ -32,10 +29,16 @@
     <ClCompile Include="Application\StageScene.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Application\ClearScene.cpp">
+    <ClCompile Include="Application\SelectorCommand.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GameManager.cpp">
+    <ClCompile Include="Application\Selector.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Unit.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\StageSceneInputHandler.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,11 +124,13 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="Application\InputManager.h" />
-    <ClInclude Include="Application\TitleScene.h" />
+    <ClInclude Include="Application\GameManager.h" />
     <ClInclude Include="Application\IScene.h" />
     <ClInclude Include="Application\StageScene.h" />
-    <ClInclude Include="Application\ClearScene.h" />
-    <ClInclude Include="Application\GameManager.h" />
+    <ClInclude Include="Application\IStageSceneCommand.h" />
+    <ClInclude Include="Application\Selector.h" />
+    <ClInclude Include="Application\Unit.h" />
+    <ClInclude Include="Application\SelectorCommand.h" />
+    <ClInclude Include="Application\StageSceneInputHandler.h" />
   </ItemGroup>
 </Project>
