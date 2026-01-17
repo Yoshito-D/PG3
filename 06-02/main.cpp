@@ -71,25 +71,8 @@ void RenderMap(const Map& map) {
    }
 }
 
-static std::string FindCSVPath(const std::string& preferred) {
-   std::vector<std::string> candidates;
-   candidates.push_back(preferred);
-   candidates.push_back("map.csv");
-   candidates.push_back("06-02/map.csv");
-   candidates.push_back("./06-02/map.csv");
-   candidates.push_back("../06-02/map.csv");
-
-   for (const auto& c : candidates) {
-	  std::ifstream ifs(c);
-	  if (ifs.is_open()) {
-		 return c;
-	  }
-   }
-   return std::string();
-}
-
 int main() {
-   std::string preferred = "06-02/map.csv";
+   std::string csvPath = "map.csv";
 
    Map mapData;
 
@@ -98,49 +81,37 @@ int main() {
    std::condition_variable cv;
    std::atomic<bool> finished(false);
 
-   std::string csvPath = FindCSVPath(preferred);
    std::thread loader;
 
-   if (csvPath.empty()) {
-	  std::cerr << "CSVが見つかりませんでした。組み込みのマップを使用します。\n";
-	  // フォールバックのマップ（埋め込み）
-	  mapData = {
-		  {0,0,0,1,1,1,0,0,2,2},
-		  {0,3,0,1,0,1,0,0,2,2},
-		  {0,0,0,1,0,1,0,0,0,0},
-		  {1,1,1,1,0,1,1,1,0,0},
-		  {0,0,0,0,0,0,0,1,0,0},
-		  {0,2,2,0,0,0,0,1,0,0},
-		  {0,2,2,0,3,0,0,0,0,0},
-		  {0,0,0,0,0,0,0,0,0,0},
-		  {1,1,0,0,0,0,1,1,1,0},
-		  {0,0,0,3,0,0,0,0,0,0}
-	  };
-	  finished = true;
-   } else {
-	  std::cout << "CSVを発見: " << csvPath << std::endl;
+   std::ifstream test(csvPath);
+   if (!test.is_open()) {
+	  std::cerr << "CSVが見つかりませんでした ('" << csvPath << "')。読み込みに失敗しました。\n";
+	  return 0;
+   }
 
-	  loader = std::thread(LoadCSV, csvPath, std::ref(rowQueue), std::ref(queueMutex), std::ref(cv), std::ref(finished));
+   test.close();
+   std::cout << "CSVを発見: " << csvPath << std::endl;
 
-	  while (true) {
-		 std::unique_lock<std::mutex> lk(queueMutex);
-		 cv.wait(lk, [&]() { return !rowQueue.empty() || finished.load(); });
+   loader = std::thread(LoadCSV, csvPath, std::ref(rowQueue), std::ref(queueMutex), std::ref(cv), std::ref(finished));
 
-		 while (!rowQueue.empty()) {
-			auto row = rowQueue.front();
-			rowQueue.pop();
-			lk.unlock();
+   while (true) {
+	  std::unique_lock<std::mutex> lk(queueMutex);
+	  cv.wait(lk, [&]() { return !rowQueue.empty() || finished.load(); });
 
-			mapData.push_back(std::move(row));
+	  while (!rowQueue.empty()) {
+		 auto row = rowQueue.front();
+		 rowQueue.pop();
+		 lk.unlock();
 
-			lk.lock();
-		 }
+		 mapData.push_back(std::move(row));
 
-		 if (finished.load() && rowQueue.empty()) break;
+		 lk.lock();
 	  }
 
-	  if (loader.joinable()) loader.join();
+	  if (finished.load() && rowQueue.empty()) break;
    }
+
+   if (loader.joinable()) loader.join();
 
    std::cout << "\nCSV読み込み完了。マップを表示します:\n\n";
 
