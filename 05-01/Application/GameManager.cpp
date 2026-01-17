@@ -3,8 +3,8 @@
 #include "StageScene.h"
 #include <Novice.h>
 
-GameManager::GameManager() : prevSceneType_(SCENE::TITLE) {
-   ChangeScene(SCENE::TITLE);
+GameManager::GameManager() : prevSceneType_(SCENE::STAGE) {
+   ChangeScene(SCENE::STAGE);
 }
 
 GameManager::~GameManager() {}
